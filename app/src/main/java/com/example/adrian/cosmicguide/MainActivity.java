@@ -1,5 +1,6 @@
 package com.example.adrian.cosmicguide;
 
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -11,10 +12,13 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.adrian.cosmicguide.Earth.EarthFragment;
+import com.example.adrian.cosmicguide.Universe.UniverseFragment;
 
 public class MainActivity extends AppCompatActivity {
 
-    ViewPager pager;
+    private static final int NUM_PAGES = 2;
+
+    private ViewPager pager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +28,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         CollectionPagerAdapter adapter = new CollectionPagerAdapter(getSupportFragmentManager());
-        pager = (ViewPager) findViewById(R.id.mainSwiper);
+        pager = (ViewPager) findViewById(R.id.main_swiper);
         pager.setAdapter( adapter );
+
+        TabLayout tabs = (TabLayout) findViewById(R.id.pager_tabs);
+        tabs.setupWithViewPager(pager);
     }
 
     @Override
@@ -58,16 +65,19 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            Fragment fragment = new EarthFragment();
-            Bundle args = new Bundle();
-            args.putInt("object", position + 1);
-            fragment.setArguments(args);
+            Fragment fragment = position == 0 ? (new EarthFragment()) : (new UniverseFragment());
             return fragment;
         }
 
         @Override
         public int getCount() {
-            return 0;
+            return NUM_PAGES;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return position==0 ? MainActivity.this.getResources().getString(R.string.earth)
+                    : MainActivity.this.getResources().getString(R.string.universe);
         }
     }
 }
