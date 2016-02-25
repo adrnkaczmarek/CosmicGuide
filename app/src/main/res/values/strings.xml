@@ -4,4 +4,7 @@
 
     <string name="earth">Earth</string>
     <string name="universe">Universe</string>
+
+    <string name="earth_title">What would like to check about the Earth??</string>
+    <string name="universe_title">What would like to check about the Universe??</string>
 </resources>
